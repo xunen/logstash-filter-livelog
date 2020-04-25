@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.time.Instant;
 
 // class name must match plugin name
 @LogstashPlugin(name = "cdn_live_log")
@@ -19,13 +20,18 @@ public class CdnLiveLog implements Filter {
     public static final PluginConfigSpec<String> SOURCE_CONFIG =
             PluginConfigSpec.stringSetting("source", "message");
 
+    public static final PluginConfigSpec<String> DELIMITER_CONFIG =
+            PluginConfigSpec.stringSetting("delimiter", "|");
+
     private String id;
     private String sourceField;
+    private final String delimiter;
 
     public CdnLiveLog(String id, Configuration config, Context context) {
         // constructors should validate configuration options
         this.id = id;
         this.sourceField = config.get(SOURCE_CONFIG);
+        this.delimiter = config.get(DELIMITER_CONFIG);
     }
 
     @Override
@@ -33,7 +39,13 @@ public class CdnLiveLog implements Filter {
         for (Event e : events) {
             Object f = e.getField(sourceField);
             if (f instanceof String) {
-                e.setField(sourceField, StringUtils.reverse((String)f));
+
+
+                String input = (String)f;
+                String[] split = input.split("\\|");
+
+                e.setField("time", split[0]);
+                e.setEventTimestamp(Instant.ofEpochSecond(120, 100000));
                 matchListener.filterMatched(e);
             }
         }
