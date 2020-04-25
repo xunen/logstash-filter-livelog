@@ -16,8 +16,8 @@ pluginInfo.authors         = ['Elasticsearch']
 pluginInfo.email           = ['info@elastic.co']
 pluginInfo.homepage        = "http://www.elastic.co/guide/en/logstash/current/index.html"
 pluginInfo.pluginType      = "filter"
-pluginInfo.pluginClass     = "JavaFilterExample"
-pluginInfo.pluginName      = "java_filter_example" // must match the @LogstashPlugin annotation in the main plugin class
+pluginInfo.pluginClass     = "CdnLiveLog"
+pluginInfo.pluginName      = "cdn_live_log" // must match the @LogstashPlugin annotation in the main plugin class
 // ===========================================================================
 
 sourceCompatibility = 1.8
@@ -25,6 +25,7 @@ targetCompatibility = 1.8
 
 buildscript {
     repositories {
+        mavenLocal()
         mavenCentral()
         jcenter()
     }
@@ -35,6 +36,7 @@ buildscript {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
 }
 
@@ -52,7 +54,7 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.7'
     compile 'org.apache.logging.log4j:log4j-api:2.9.1'
     compile 'org.apache.logging.log4j:log4j-core:2.9.1'
-    compile fileTree(dir: LOGSTASH_CORE_PATH, include: "build/libs/logstash-core-?.?.?.jar")
+    compile fileTree(dir: LOGSTASH_CORE_PATH, include: "lib/jars/logstash-core.jar")
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.jruby:jruby-complete:9.2.7.0'

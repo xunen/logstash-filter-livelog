@@ -13,14 +13,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class JavaFilterExampleTest {
+public class CDNLiveLogTest {
 
     @Test
     public void testJavaExampleFilter() {
         String sourceField = "foo";
         Configuration config = new ConfigurationImpl(Collections.singletonMap("source", sourceField));
         Context context = new ContextImpl(null);
-        JavaFilterExample filter = new JavaFilterExample("test-id", config, context);
+        JavaFilterExample filter = new CDNLiveLog("test-id", config, context);
 
         Event e = new org.logstash.Event();
         TestMatchListener matchListener = new TestMatchListener();
